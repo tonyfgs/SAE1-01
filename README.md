@@ -5,6 +5,7 @@
 
 ### Fonction a faire :
 
+
 `entree sortie:
 
 
@@ -35,4 +36,8 @@ cree/supp adherent
 nombre point accumulé par activité en 1 journee
 
 
-activer desactiver carte`
+activer desactiver carte
+
+Total points depenser 
+
+Moyenne depenses par Adhérents`
