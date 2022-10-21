@@ -21,7 +21,7 @@ boisson alcool (interdit -18 ans)
 entrée concert
 
 
-recharger carte
+recharger carte // fait 
 
 
 voir combien coute quoi
