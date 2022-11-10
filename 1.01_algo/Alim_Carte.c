@@ -1,40 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "SAE.h"
-int chargement(int tabAdherent[], int tabCarte[], int tabAge[], int tabEtat[], int size)
-{
-    FILE *f;
-    int i=0, adherent, pntcarte, age, etat;
-    f = fopen("fichier.txt", "r");
-    if (f == NULL)
-    {
-        printf("Erreur a l'ouverture du fichier");
-        return -1;
-    }
-    fscanf(f, "%d %d %d %d", &adherent, &pntcarte, &age, &etat);
-    while(!feof(f))
-    {
-        tabAdherent[i] = adherent;
-        tabCarte[i] = pntcarte;
-        tabAge[i] = age;
-        tabEtat[i] = etat;
-        i++;
-        fscanf(f, "%d %d %d %d", &adherent, &pntcarte, &age, &etat);
-    }
-    return i;
-    fclose (f);
-}
 
-void affichage(int tabAdherent[], int tabCarte[], int tabAge[], int tabEtat[],int tlog)
-{
-    int i;
-
-    printf("Adherent\tCarte\tAge\tEtat\n");
-    for (i=0; i<tlog; i++)
-    {
-        printf("%d\t\t%d\t%d\t%d\n", tabAdherent[i], tabCarte[i], tabAge[i], tabEtat[i]);
-    }
-}
 
 
 void frecherche(int tabAdherent[], int tlog, int val, int *pos, int *code_retour)
@@ -94,24 +61,6 @@ void Alim_Carte(int tabAdherent[], int tabCarte[], int tabEtat[], int tlog)
       printf("Carte inexistante \n");
 }
 
-void Sauvegarde(int tabAdherent[], int tabCarte[], int tabAge[], int tabEtat[], int tlog)
-{
-    FILE *f;
-    int i;
-    f = fopen("fichier.txt","w");
-    if (f == NULL)
-    {
-        printf("Erreur lors de l'ouverture du fichier");
-        return;
-    }
-    for (i=0; i < tlog; i++)
-    {
-        fprintf(f,"%d\t%d\t%d\t%d\n", tabAdherent[i],tabCarte[i],tabAge[i],tabEtat[i]); 
-    }
-
-    fclose(f);
-}
-
 
 void Change_Etat(int tabAdherent[], int tabEtat[], int tlog)
 {
@@ -142,7 +91,7 @@ void Change_Etat(int tabAdherent[], int tabEtat[], int tlog)
         if(choix == 1 && (tabEtat[pos] == 0 || tabEtat[pos] == 1 ))
         {
             printf("Sanction : limitation des concerts à 1 par jours\n");
-            tabEtat[pos] = pos;
+            tabEtat[pos] = 2;
             
         }
     }
@@ -153,47 +102,4 @@ void Activite(int activité_concert,int nb_soft,int nb_alcool)
             printf("Affluences concerts : %d\t\t", activité_concert);
             printf("Nombres de boissons alcoolisés : %d\t\t", nb_alcool);
             printf("Nombres de boissons sans alcool : %d\n", nb_soft); 
-}
-void global(void)
-{
-    int tlog, choix, size=50, tabAdherent[size], tabAge[size], tabCarte[size], tabEtat[size];
-    int pos, code_retour, val, adherent, activité_concert=0, nb_soft = 0, nb_alcool=0;
-    printf("Bienvenue au festival Test\nChoissisez une des catégories\n");
-    tlog = chargement(tabAdherent, tabCarte, tabAge, tabEtat, size);
-    while(choix != 9)
-    {
-        printf("1- Affichage\n2- Rechercher\n3- Alimenter carte\n4- Changer etats\n5- Sauvegarder\n6- Achats Boissons\n7- Entrée concert\n9- Exit\n");
-        scanf("%d", &choix);
-        if (choix == 1)
-            affichage(tabAdherent, tabCarte, tabAge, tabEtat, tlog);
-        if (choix == 2)
-        {
-            printf("entrer la carte rechercher\n");
-            scanf("%d",&val);
-            frecherche(tabAdherent, tlog, val, &pos, &code_retour); 
-            printf("%d\n", pos);
-        }
-        if (choix == 3)
-            Alim_Carte(tabAdherent,tabCarte, tabEtat, tlog);
-        if (choix == 4)
-            Change_Etat(tabAdherent, tabEtat, tlog);
-        if (choix == 5)
-            Sauvegarde(tabAdherent,tabCarte,tabAge,tabEtat, tlog);
-        if (choix == 6)
-        {
-            printf("Entrer votre numéro d'ahdérent : \n");
-            scanf("%d",&adherent);
-            AchatBoissons(tabAdherent,tabEtat,tabAge,tabCarte,tlog,adherent, &nb_soft, &nb_alcool);
-        }
-        if (choix == 7)
-        {
-            printf("Entrer votre numéro d'ahdérent : \n");
-            scanf("%d",&adherent); 
-            Concert(tabAdherent, tabEtat,tabAge,tabCarte,tlog,adherent,&activité_concert);
-        }
-        if(choix == 8)
-        {
-            Activite(activité_concert,nb_alcool,nb_soft);
-        }
-    }
 }

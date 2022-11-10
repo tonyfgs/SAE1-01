@@ -21,7 +21,7 @@ int Info_Adhérent(int tabAdherent[],int tabEtat[], int tabAge[], int tlog,int a
 
 void AchatBoissons(int tabAdherent[], int tabEtat[], int tabAge[],int tabCarte[], int tlog, int adherent,int *nb_soft,int *nb_alcool )
 {
-    int limite = 0, code_ret, age, choix, prix_alcool = 13, prix_soft = 6, nombre ;
+    int limite = 0, code_ret, age, choix, prix_alcool = 13, prix_soft = 6, nombre, prix_tot;
     code_ret = Info_Adhérent(tabAdherent, tabEtat, tabAge, tlog,adherent, &age);
     if (code_ret == -1) return;
     printf("Position == %d",code_ret);
@@ -34,7 +34,8 @@ void AchatBoissons(int tabAdherent[], int tabEtat[], int tabAge[],int tabCarte[]
         
         if (choix == 1 && age >= 18 && tabCarte[code_ret] >= 13)
         {
-            printf("Achat accepté retrait de %d points sur votre carte \n", prix_alcool);
+            prix_tot = prix_alcool * nombre;
+            printf("Achat accepté retrait de %d points sur votre carte \n", prix_tot);
             tabCarte[code_ret] = tabCarte[code_ret] - prix_alcool;
             *nb_alcool = *nb_alcool + nombre;
         }
@@ -58,7 +59,8 @@ void AchatBoissons(int tabAdherent[], int tabEtat[], int tabAge[],int tabCarte[]
         }
         if (choix == 0 && tabCarte[code_ret] >= 6)
         {
-            printf("Achat accepté retrait de %d points sur votre carte \n", prix_soft);
+            prix_tot = prix_soft * nombre;
+            printf("Achat accepté retrait de %d points sur votre carte \n", prix_tot);
             tabCarte[code_ret] = tabCarte[code_ret] - prix_soft;
             *nb_soft = *nb_soft +nombre;
         }
