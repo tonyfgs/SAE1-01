@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "SAE.h"
 int chargement(int tabAdherent[], int tabCarte[], int tabAge[], int tabEtat[], int size)
 {
     FILE *f;
@@ -25,14 +25,14 @@ int chargement(int tabAdherent[], int tabCarte[], int tabAge[], int tabEtat[], i
     fclose (f);
 }
 
-void affichage(int tabAdherent[], int tabCartet[], int tabAge[], int tabEtat[],int tlog)
+void affichage(int tabAdherent[], int tabCarte[], int tabAge[], int tabEtat[],int tlog)
 {
     int i;
 
     printf("Adherent\tCarte\tAge\tEtat\n");
     for (i=0; i<tlog; i++)
     {
-        printf("%d\t\t%d\t%d\t%d\n", tabAdherent[i], tabCartet[i], tabAge[i], tabEtat[i]);
+        printf("%d\t\t%d\t%d\t%d\n", tabAdherent[i], tabCarte[i], tabAge[i], tabEtat[i]);
     }
 }
 
@@ -81,13 +81,14 @@ void Alim_Carte(int tabAdherent[], int tabCarte[], int tabEtat[], int tlog)
     }
     if (code_retour == 1 )
     {
-        printf("Entrer le nombre de point a rajouter (1 point = 2€)\n");
+        printf("Entrer le nombre de point a rajouter (1 point = 2€ et 1 point offert tout les 5 points achetési)\n");
         scanf("%d", &nbPoint);
         printf("%d\n", nbPoint);
         prix_Point(nbPoint, &prix);
+        nbPoint = nbPoint + (nbPoint/5);
         tabCarte[pos] = tabCarte[pos] + nbPoint;
-        printf("Cela vous fera un total de point de %d€\n", prix);
-        printf("Vous avez un total de %d point\n", tabCarte[pos]);
+        printf("Cela vous fera un total de %d€\n", prix);
+        printf("Vous avez un crediter votre compte de %d points cela vous fait un total de %d point\n",nbPoint, tabCarte[pos]);
     }
     if (code_retour == 0)
       printf("Carte inexistante \n");
@@ -114,8 +115,8 @@ void Sauvegarde(int tabAdherent[], int tabCarte[], int tabAge[], int tabEtat[], 
 
 void Change_Etat(int tabAdherent[], int tabEtat[], int tlog)
 {
-    int pos, code_retour, nbAdherent;
-    printf("Entrer le numero de l'adherent dont l'état doit être changé \n");
+    int pos, code_retour, nbAdherent, choix;
+    printf("Entrer le numero de l'adherent concerné\n");
     scanf("%d",&nbAdherent);
     frecherche(tabAdherent, tlog, nbAdherent, &pos, &code_retour);
     if(code_retour == 0)
@@ -125,21 +126,43 @@ void Change_Etat(int tabAdherent[], int tabEtat[], int tlog)
     }
     if(code_retour == 1)
     {
-        if(tabEtat[pos] == 0)
+        printf("Voulez vous lui changer l'etat de sa carte ou bien appliquer/enlever une saction (bloquer:0/sanction:1)");
+        scanf("%d",&choix);
+        if(choix == 0 && tabEtat[pos] == 0)
             tabEtat[pos] = 1;
-        else if(tabEtat[pos] == 1)
+        else if(choix == 0 && tabEtat[pos] == 1)
                  tabEtat[pos] = 0;
+        if(choix == 1 && (tabEtat[pos] == 2 || tabEtat[pos] == 3))
+        {
+            printf("Retrait de la sanction : limitation des concerts à 1 par jours\n");
+            tabEtat[pos] = 1;
+            return;    
+        }
+        
+        if(choix == 1 && (tabEtat[pos] == 0 || tabEtat[pos] == 1 ))
+        {
+            printf("Sanction : limitation des concerts à 1 par jours\n");
+            tabEtat[pos] = pos;
+            
+        }
     }
+}
+
+void Activite(int activité_concert,int nb_soft,int nb_alcool)
+{
+            printf("Affluences concerts : %d\t\t", activité_concert);
+            printf("Nombres de boissons alcoolisés : %d\t\t", nb_alcool);
+            printf("Nombres de boissons sans alcool : %d\n", nb_soft); 
 }
 void global(void)
 {
     int tlog, choix, size=50, tabAdherent[size], tabAge[size], tabCarte[size], tabEtat[size];
-    int pos, code_retour, val;
+    int pos, code_retour, val, adherent, activité_concert=0, nb_soft = 0, nb_alcool=0;
     printf("Bienvenue au festival Test\nChoissisez une des catégories\n");
     tlog = chargement(tabAdherent, tabCarte, tabAge, tabEtat, size);
     while(choix != 9)
     {
-        printf("1- Affichage\n2- Rechercher\n3- Alimenter carte\n4- Changer etats\n5- Sauvegarder\n9- Exit\n");
+        printf("1- Affichage\n2- Rechercher\n3- Alimenter carte\n4- Changer etats\n5- Sauvegarder\n6- Achats Boissons\n7- Entrée concert\n9- Exit\n");
         scanf("%d", &choix);
         if (choix == 1)
             affichage(tabAdherent, tabCarte, tabAge, tabEtat, tlog);
@@ -156,5 +179,21 @@ void global(void)
             Change_Etat(tabAdherent, tabEtat, tlog);
         if (choix == 5)
             Sauvegarde(tabAdherent,tabCarte,tabAge,tabEtat, tlog);
+        if (choix == 6)
+        {
+            printf("Entrer votre numéro d'ahdérent : \n");
+            scanf("%d",&adherent);
+            AchatBoissons(tabAdherent,tabEtat,tabAge,tabCarte,tlog,adherent, &nb_soft, &nb_alcool);
+        }
+        if (choix == 7)
+        {
+            printf("Entrer votre numéro d'ahdérent : \n");
+            scanf("%d",&adherent); 
+            Concert(tabAdherent, tabEtat,tabAge,tabCarte,tlog,adherent,&activité_concert);
+        }
+        if(choix == 8)
+        {
+            Activite(activité_concert,nb_alcool,nb_soft);
+        }
     }
 }
