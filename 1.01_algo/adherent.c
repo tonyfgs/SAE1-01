@@ -271,7 +271,7 @@ void affichage(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], int 
 
 /**
  *\brief affiche et permet de naviguer dans le menu principal de l'application
- *\author Khéna BRUNEAU
+ *\author Khéna BRUNEAU et Tony FAGES
  */
 void global(void)
 {
