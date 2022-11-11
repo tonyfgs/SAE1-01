@@ -309,13 +309,13 @@ void global(void)
                 {
                    printf("Entrer votre numéro d'ahdérent : \n");
                    scanf("%d",&adherent);
-                   AchatBoissons(tabAdherent,tabEtat,tabAge,tabCarte,tlog,adherent, &nb_soft, &nb_alcool);
+                   Concert(tabAdherent, tabEtat,tabAge,tabCarte,tlog,adherent,&activité_concert);
                 }
                 if (sousChoix == 3)
                 {
                     printf("Entrer votre numéro d'ahdérent : \n");
-                    scanf("%d",&adherent); 
-                    Concert(tabAdherent, tabEtat,tabAge,tabCarte,tlog,adherent,&activité_concert);
+                    scanf("%d",&adherent);
+		    AchatBoissons(tabAdherent,tabEtat,tabAge,tabCarte,tlog,adherent, &nb_soft, &nb_alcool);
                 }
             }
         if (choix == 3)
