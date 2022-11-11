@@ -1,4 +1,21 @@
+/**
+ *\file adherent.c
+ *\brief Ce fichier contient tout le code permettant de gerer l'affichage, de creer ou de supprimer des adhérents ainsi que le menu principal de l'application.
+ *\author Khéna BRUNEAU
+ *\date 13 octobre 2022
+ */
+
 #include"SAE.h"
+
+/**
+ *\brief recherche dans un tableau trié une valeur
+ *\param tabInt[] tableau d'entiers triés
+ *\param val valeur cherchée dans le tableau
+ *\param tlog taille logique du tableau
+ *\param *trouve indique si la valeur cherchée est dans le tableau ou non
+ *\return la position de la valeur dans le tableau ou sa position d'insertion si il n'est pas dans le tableau
+ *\author Khéna BRUNEAU
+ */
 int rechercher(int tabInt[], int val, int tlog, int *trouve)
 {
     int i;
@@ -16,6 +33,17 @@ int rechercher(int tabInt[], int val, int tlog, int *trouve)
     return tlog;
 }
 
+/**
+ *\brief crée un adhérent et enregistre ses informations dans les tableaux
+ *\param tabCarte[] tableau trié des numéros de carte des adhérents
+ *\param tabPoint[] tableau des points de chaque cartes
+ *\param tabAge[] tableau de l'age des adhérents
+ *\param tabEtat[] tableau des états des cartes
+ *\param tlog taille logique des tableaux
+ *\param max taille maximal des tableaux
+ *\return la taille logique après ajout
+ *\author Khéna BRUNEAU
+ */
 int creerAdherent(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], int tlog, int max)
 {
     int numCarte, point, age, trouve, i, j;
@@ -95,6 +123,16 @@ int creerAdherent(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], i
         return tlog;
 }
 
+/**
+ *\brief supprime les informations d'un adhérent si son numéro de carte est dans le tableau des numéros de carte
+ *\param tabCarte[] tableau trié des numéros de carte des adhérents
+ *\param tabPoint[] tableau des points de chaque cartes
+ *\param tabAge[] tableau de l'age des adhérents
+ *\param tabEtat[] tableau des états des cartes
+ *\param tlog taille logique des tableaux
+ *\return la taille logique après suppression
+ *\author Khéna BRUNEAU
+ */
 int supprimerAdherent(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], int tlog)
 {
     int numCarte, saisie=1, trouve, i, j;
@@ -130,6 +168,17 @@ int supprimerAdherent(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[
     }
 	return tlog;     
 }
+
+/**
+ *\brief charge les informations du fichier adherent.txt dans les tableaux
+ *\param tabAdherent[] tableau trié des numéros de carte des adhérents
+ *\param tabCarte[] tableau des points de chaque cartes
+ *\param tabAge[] tableau de l'age des adhérents
+ *\param tabEtat[] tableau des états des cartes
+ *\param size taille maximal des tableaux
+ *\return la taille logique après chargement
+ *\author Khéna BRUNEAU
+ */
 int chargement(int tabAdherent[],int tabCarte[], int tabAge[], int tabEtat[], int size)
 {
     FILE *f;
@@ -154,6 +203,15 @@ int chargement(int tabAdherent[],int tabCarte[], int tabAge[], int tabEtat[], in
     return i;
 }
 
+/**
+ *\brief sauvegarde les informations des tableaux dans le fichier adherent.txt
+ *\param tabCarte[] tableau trié des numéros de carte des adhérents
+ *\param tabPoint[] tableau des points de chaque cartes
+ *\param tabAge[] tableau de l'age des adhérents
+ *\param tabEtat[] tableau des états des cartes
+ *\param tlog taille logique des tableaux
+ *\author Khéna BRUNEAU
+ */
 void sauvegarder(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], int tlog)
 {
     int i, numCarte, point, age, etat;
@@ -171,6 +229,16 @@ void sauvegarder(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], in
     fclose(flot);
 }
 
+/**
+ *\brief affiche les informations des tableaux soit d'un seul adhérent soit de tous
+ *\param tabCarte[] tableau trié des numéros de carte des adhérents
+ *\param tabPoint[] tableau des points de chaque cartes
+ *\param tabAge[] tableau de l'age des adhérents
+ *\param tabEtat[] tableau des états des cartes
+ *\param tlog taille logique des tableaux
+ *\param saisie indique quel affichage faire
+ *\author Khéna BRUNEAU
+ */
 void affichage(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], int tlog, int saisie)
 {
     int i=0, numCarte, trouve;
@@ -201,6 +269,10 @@ void affichage(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], int 
     }
 }
 
+/**
+ *\brief affiche et permet de naviguer dans le menu principal de l'application
+ *\author Khéna BRUNEAU
+ */
 void global(void)
 {
     int tlog, choix, sousChoix, size=50, tabAdherent[size], tabAge[size], tabCarte[size], tabEtat[size];
