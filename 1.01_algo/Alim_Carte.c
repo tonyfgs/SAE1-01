@@ -1,9 +1,23 @@
+/**
+ *\file Alim_Carte.c
+ *\brief contient toutes les fonctions permettant de changer l'état et d'alimenter en points les cartes
+ *\author Tony FAGES
+ *\date 15 octobre 2022
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "SAE.h"
 
-
-
+/**
+ *\brief recherche une valeur dans un tableau trié
+ *\param tabAdherent[] tableau trié des numéros de carte
+ *\param tlog taille logique du tableau
+ *\param val valeur cherchée
+ *\param *pos retourne par pointeur la position de la valeur dans le tableau
+ *\param *code_retour retourne par pointeur si la valeur est dans le tableau (1) ou non (0)
+ *\author Tony FAGES
+ */
 void frecherche(int tabAdherent[], int tlog, int val, int *pos, int *code_retour)
 {
     int i;
@@ -29,12 +43,26 @@ void frecherche(int tabAdherent[], int tlog, int val, int *pos, int *code_retour
     return;
 }
 
+/**
+ *\brief calcul et renvoie le prix en fonction du nombre de points
+ *\param nbPoint nombre de points
+ *\param *prix retourne par pointeur le prix d'achat des points
+ *\author Tony FAGES
+ */
 void prix_Point(int nbPoint, int *prix)
 {
     int point = 2;
     *prix = nbPoint * point;
 }
 
+/**
+ *\brief alimente une carte en point si son état lui permet
+ *\param tabAdherent[] tableau trié des numéros de carte
+ *\param tabCarte[] tableau des points de chaque carte
+ *\param tabEtat[] tableau de l'état des cartes
+ *\param tlog taille logique des tableaux
+ *\author Tony FAGES
+ */
 void Alim_Carte(int tabAdherent[], int tabCarte[], int tabEtat[], int tlog)
 {
     int pos, code_retour, nbPoint, nbCarte, prix;
@@ -61,7 +89,16 @@ void Alim_Carte(int tabAdherent[], int tabCarte[], int tabEtat[], int tlog)
       printf("Carte inexistante \n");
 }
 
-
+/**
+ *\brief change l'état d'une carte
+ *\param tabAdherent[] tableau trié des numéros de carte
+ *\param tabEtat[] tableau de l'état des cartes
+ *\param tlog taille logique des tableaux
+ *  une carte peut avoir 3 états, 1 indique une carte qui fonctionne normalement
+ *                                0 indique une carte qui est bloqué, c'est à dire qu'elle est inutilisable
+ *                                2 indique une carte qui est sanctionné, c'est à dire que l'adhérent ne pourra assister qu'à un seul concert par jour
+ *\author Tony FAGES
+ */
 void Change_Etat(int tabAdherent[], int tabEtat[], int tlog)
 {
     int pos, code_retour, nbAdherent, choix;
@@ -97,6 +134,13 @@ void Change_Etat(int tabAdherent[], int tabEtat[], int tlog)
     }
 }
 
+/**
+ *\brief cette fonction affiche le nombre d'entée au concert ainsi que le nombre de boissons avec et sans alcool vendu dans la journée
+ *\param activité_concert nombre d'entrée au concert dans une journée
+ *\param nb_soft nombre de boissons soft vendues dans une journée
+ *\param nb_alcool nombre de boissons alcoolisées vendues dans une journée
+ *\author Tony FAGES
+ */
 void Activite(int activité_concert,int nb_soft,int nb_alcool)
 {
             printf("Affluences concerts : %d\t\t", activité_concert);
