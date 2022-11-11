@@ -53,7 +53,6 @@ void AchatBoissons(int tabAdherent[], int tabEtat[], int tabAge[],int tabCarte[]
     int limite = 0, code_ret, age, choix, prix_alcool = 13, prix_soft = 6, nombre, prix_tot;
     code_ret = Info_Adhérent(tabAdherent, tabEtat, tabAge, tlog,adherent, &age);
     if (code_ret == -1) return;
-    printf("Position == %d",code_ret);
     printf("Voulez-vous une boisson soft(6 points) ou alcoolisée(13 point) (0: soft, 1: alcoolisée, 9:annuler)\n");
     scanf("%d",&choix);
     while(choix != 9)
@@ -65,7 +64,7 @@ void AchatBoissons(int tabAdherent[], int tabEtat[], int tabAge[],int tabCarte[]
         {
             prix_tot = prix_alcool * nombre;
             printf("Achat accepté retrait de %d points sur votre carte \n", prix_tot);
-            tabCarte[code_ret] = tabCarte[code_ret] - prix_alcool;
+            tabCarte[code_ret] = tabCarte[code_ret] - prix_tot;
             *nb_alcool = *nb_alcool + nombre;
         }
         else
@@ -90,7 +89,7 @@ void AchatBoissons(int tabAdherent[], int tabEtat[], int tabAge[],int tabCarte[]
         {
             prix_tot = prix_soft * nombre;
             printf("Achat accepté retrait de %d points sur votre carte \n", prix_tot);
-            tabCarte[code_ret] = tabCarte[code_ret] - prix_soft;
+            tabCarte[code_ret] = tabCarte[code_ret] - prix_tot;
             *nb_soft = *nb_soft +nombre;
         }
         else 
@@ -135,7 +134,6 @@ void Concert(int tabAdherent[], int tabEtat[], int tabAge[],int tabCarte[], int 
             break;
         }
         if(tabEtat[code_ret] == 2) tabEtat[code_ret] = 3;
-        printf("%d",tabEtat[code_ret]);
         printf("Êtes-vous éligibles aux tarifs reduits : (1=oui/0=non)\n");
         scanf("%d",&choix);
 

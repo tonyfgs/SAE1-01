@@ -72,7 +72,6 @@ int creerAdherent(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], i
     tabPoint[j]=point;
     tabAge[j]=age;
     tabEtat[j]=1;
-    printf("Age : %d",tabAge[i]);
     printf("\nFestivalier bien ajouté !!! \n\nVoici le profil : \nNuméro carte\tNombre de Points\tAge\tEtat de la carte\n");
     printf("%d\t\t%d\t\t\t%d\t%d\n", tabCarte[i], tabPoint[i], tabAge[i], tabEtat[i]);
 
@@ -145,9 +144,7 @@ int supprimerAdherent(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[
         }
         printf("\nSaisir le numéro de carte de l'adhérent : ");
         scanf("%d", &numCarte);
-        printf("Tlog avant recherche :%d",tlog);
         i=rechercher(tabCarte, numCarte, tlog, &trouve);
-        printf("Tlog apres recherche :%d",tlog);
         if (trouve==1)
         {
             printf("\nNuméro d'adhérent inexistant\n");
@@ -246,7 +243,6 @@ void affichage(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], int 
     if (saisie==2) 
 	{
         printf("\nNuméro carte\t Nombre de Points\t Age\t Etat de la carte\n");
-        printf("tlog : %d\n",tlog);
 	    while (i<tlog)
 	    {
 		    printf("%d\t\t %d\t\t\t %d\t %d\n",tabCarte[i], tabPoint[i], tabAge[i], tabEtat[i]);
@@ -276,7 +272,7 @@ void affichage(int tabCarte[], int tabPoint[], int tabAge[], int tabEtat[], int 
 void global(void)
 {
     int tlog, choix, sousChoix, size=50, tabAdherent[size], tabAge[size], tabCarte[size], tabEtat[size];
-    int pos, code_retour, val, adherent, activité_concert=0, nb_soft = 0, nb_alcool=0;
+    int  adherent, activité_concert=0, nb_soft = 0, nb_alcool=0;
 
     tlog=chargement(tabAdherent, tabCarte, tabAge, tabEtat, size);
     printf("\nBienvenue dans le gestionnaire du festival Les gens d'Air\n");

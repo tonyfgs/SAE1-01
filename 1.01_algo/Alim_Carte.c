@@ -32,7 +32,6 @@ void frecherche(int tabAdherent[], int tlog, int val, int *pos, int *code_retour
 
         if ( val < tabAdherent[i])
         {
-            printf("Bonjour");
             *pos = i-1;
             *code_retour = 0;
             return;
